@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>هاوسەرگیری ئەیمەن و شکریا</title>
+<style>
+  :root {
+    --bg1: #fdf6f0;
+    --bg2: #f3e5dc;
+    --heading: #a9713a;
+    --subtitle: #7a5c3e;
+    --btn: #a9713a;
+    --btn-hover: #7a5028;
+    --btn-active: #5c3b1e;
+    --card-bg: #ffffff;
+    --text: #4a3826;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', 'Noto Sans Arabic', 'Georgia', serif;
+    background: linear-gradient(135deg, var(--bg1), var(--bg2));
+    text-align: center;
+    padding: 40px 20px;
+    min-height: 100%;
+    color: var(--text);
+  }
+
+  h1 {
+    font-size: 38px;
+    color: var(--heading);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+  }
+
+  p.subtitle {
+    font-size: 18px;
+    color: var(--subtitle);
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-style: italic;
+  }
+
+  /* Password gate */
+  #gate {
+    max-width: 380px;
+    margin: 60px auto;
+    background: var(--card-bg);
+    padding: 30px 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  #gate p {
+    margin-top: 0;
+    font-size: 16px;
+    color: var(--subtitle);
+  }
+
+  #gate input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 14px;
+    text-align: center;
+    font-family: inherit;
+  }
+
+  #gate button {
+    background: var(--btn);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+  }
+
+  #gate button:hover { background: var(--btn-hover); }
+
+  #gate .error {
+    color: #b3261e;
+    font-size: 14px;
+    min-height: 18px;
+    margin-top: 8px;
+  }
+
+  #content {
+    display: none;
+  }
+
+  video {
+    width: 100%;
+    max-width: 700px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .buttons button {
+    background: var(--btn);
+    color: white;
+    border: none;
+    padding: 14px 26px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: inherit;
+  }
+
+  .buttons button:hover {
+    background: var(--btn-hover);
+  }
+
+  .buttons button.active {
+    background: var(--btn-active);
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <h1>💍 ئەیمەن و شکریا 💍</h1>
+  <p>تکایە وشەی نهێنی بنووسە بۆ بینینی ڤیدیۆکان</p>
+  <input type="password" id="pwInput" placeholder="وشەی نهێنی" autocomplete="off">
+  <button onclick="checkPassword()">چوونەژوورەوە</button>
+  <div class="error" id="pwError"></div>
+</div>
+
+<div id="content">
+  <h1>💍 ئەیمەن و شکریا 💍</h1>
+  <p class="subtitle">ماشاڵلا، ڕۆژێک بۆ هەمیشە لە یادماندا دەمێنێتەوە</p>
+
+  <video id="mainVideo" width="640" height="360" controls playsinline preload="metadata">
+    <source id="videoSource" src="01.mp4" type="video/mp4">
+    وێبگەڕەکەت پشتگیری ڤیدیۆ ناکات.
+  </video>
+  <div id="videoError" style="color:#b3261e; margin:10px auto 20px; min-height:20px;"></div>
+
+  <div class="buttons">
+    <button class="active" onclick="playVideo('01.mp4', this)">ڤیدیۆی ١</button>
+    <button onclick="playVideo('02.mp4', this)">ڤیدیۆی ٢</button>
+    <button onclick="playVideo('03.mp4', this)">ڤیدیۆی ٣</button>
+    <button onclick="playVideo('04.mp4', this)">ڤیدیۆی ٤</button>
+  </div>
+</div>
+
+<script>
+  var PASSWORD = "OmeD8325";
+
+  function checkPassword() {
+    var input = document.getElementById('pwInput');
+    var error = document.getElementById('pwError');
+    if (input.value === PASSWORD) {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    } else {
+      error.textContent = 'وشەی نهێنی هەڵەیە، دووبارە هەوڵبدەرەوە';
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  document.getElementById('pwInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  function playVideo(src, btn) {
+    var video = document.getElementById('mainVideo');
+    var source = document.getElementById('videoSource');
+    var error = document.getElementById('videoError');
+
+    error.textContent = '';
+    source.src = src;
+    video.load();
+
+    video.play().catch(function() {
+      // Some browsers block autoplay; the video can still be started with the controls.
+    });
+
+    var buttons = document.querySelectorAll('.buttons button');
+    buttons.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  document.getElementById('mainVideo').addEventListener('error', function() {
+    document.getElementById('videoError').textContent =
+      'ڤیدیۆکە نەدۆزرایەوە. دڵنیابە ناوی فایل و شوێنی 01.mp4 تا 04.mp4 دروستە.';
+  });
+</script>
+
+</body>
+</html>
